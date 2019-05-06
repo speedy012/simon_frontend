@@ -7,45 +7,48 @@ body{
   justify-content: center;
 }
 #red{
-  background: red;
+  background: #FF0000;
   justify-content: center;
   border-style: none solid solid none;
 }
 
 #blue{
-  background: blue;
+  background: #0000FF;
   justify-content: center;
   border-style: none none solid solid;
 }
 
-
 #green{
-  background: green;
+  background: #009900;
   justify-content: center;
   border-style: solid solid none none;
-
 }
 
 #yellow{
-  background: yellow;
+  background: #FFFF66;
   justify-content: center;
   border-style: solid none none solid;
-
 }
 
 .color {
-
   width: 49%;
-
+  /* max-width: 150px; */
 }
 
 #game-container{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  /* justify-content: center; */
   width: 100%;
   max-width: 350px;
   height: 350px;
   border-radius: 50%;
   overflow: hidden
+}
+
+
+#start-btn{
+  display: flex;
+  justify-content: center;
 }
