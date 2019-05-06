@@ -1,21 +1,34 @@
 body{
+  background-color: black;
+  display: flex;
+  flex-direction: row:
+  justify-content: center;
+
+}
+
+#game-title{
+  color: white;
   display: flex;
   justify-content: center;
 }
 
-#game-title{
-  justify-content: center;
-}
 #red{
   background: #FF0000;
   justify-content: center;
   border-style: none solid solid none;
 }
 
+#red:focus{
+  background: #8B0000;
+}
+
 #blue{
   background: #0000FF;
   justify-content: center;
   border-style: none none solid solid;
+}
+#blue:focus{
+  background: #000099;
 }
 
 #green{
@@ -24,10 +37,19 @@ body{
   border-style: solid solid none none;
 }
 
+#green:focus{
+  background: #006600;
+}
+
+
 #yellow{
   background: #FFFF66;
   justify-content: center;
   border-style: solid none none solid;
+}
+
+#yellow:focus{
+  background: #E5E500;
 }
 
 .color {

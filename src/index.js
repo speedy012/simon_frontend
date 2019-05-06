@@ -22,24 +22,28 @@ let userInputArr = [];
 Eventlisteners
 ********************************************************************************/
 
- startBtn.addEventListener("click", function(e){
+startBtn.addEventListener("click", function(e){
    colorPicker();
    renderColor(colorsToRender);
-
- });
+});
 
 gameCont.addEventListener("click", function (e){
   userInputArr.push(e.target)
   userIndex = userInputArr.length - 1
+  colorsToRender[userIndex]();
 
   if(userInputArr[userIndex] === colorToMatch[userIndex]){
-    console.log("yese")
+    console.log("clicked the right one");
     if(userInputArr.length === colorToMatch.length){
-      colorPicker();
-      renderColor(colorsToRender);
+      userInputArr = []
+      setTimeout(function(){
+        colorPicker();
+        renderColor(colorsToRender);
+      }, 800)
+
     }
   } else {
-      alert('Game Over')
+      confirm(`Game Over! Play again? your Score: ${userIndex++}`)
       colorsToRender = []; //CG
       colorToMatch = []; //CG
       userInputArr = [];
@@ -57,19 +61,29 @@ function colorPicker(){
   switch (randColor){
     case 0:
      colorsToRender.push(redFlipper);
+     console.log("Just added a color to colors to render", colorsToRender);
+     colorToMatch.push(red)
      break;
     case 1:
       colorsToRender.push(blueFlipper);
+      console.log("Just added a color to colors to render", colorsToRender);
+      colorToMatch.push(blue)
       break;
     case 2:
       colorsToRender.push(greenFlipper);
+      console.log("Just added a color to colors to render", colorsToRender);
+        colorToMatch.push(green)
       break;
     case 3:
       colorsToRender.push(yellowFlipper);
+      console.log("Just added a color to colors to render", colorsToRender);
+        colorToMatch.push(yellow)
   }
+  console.log("color to match", colorToMatch);
 }
 
 function renderColor(arr) {
+  console.log("render color", colorsToRender);
   arr.forEach(function(item, index) {
     return setTimeout(function() {
       return item();
@@ -89,8 +103,8 @@ function changeRedBack() {
 function redFlipper() {
   changeRed();
   setTimeout(changeRedBack, 300);
-  console.log('r')
-  colorToMatch.push(red)
+  // console.log('r')
+  // colorToMatch.push(red)
 }
 
 //Blue Flipper
@@ -105,8 +119,8 @@ function changeBlueBack() {
 function blueFlipper() {
   changeBlue();
   setTimeout(changeBlueBack, 300);
-  console.log('b')
-  colorToMatch.push(blue)
+  // console.log('b')
+
 }
 
 //Green Flipper
@@ -121,8 +135,8 @@ function changeGreenBack() {
 function greenFlipper() {
   changeGreen();
   setTimeout(changeGreenBack, 300);
-  console.log('g')
-  colorToMatch.push(green)
+  // console.log('g')
+
 }
 
 //Yellow Flipper
@@ -137,6 +151,6 @@ function changeYellowBack() {
 function yellowFlipper() {
   changeYellow();
   setTimeout(changeYellowBack, 300);
-  console.log('y')
-  colorToMatch.push(yellow)
+  // console.log('y')
+
 }
