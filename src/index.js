@@ -14,9 +14,9 @@ const startBtn = document.getElementById("start-btn")
   Global Variable
 ******************/
 
-const colorArr = [];
-
-
+let colorsToRender = []; //CG
+let colorToMatch = []; //CG
+let userInputArr = [];
 
 /********************************************************************************
 Eventlisteners
@@ -24,9 +24,27 @@ Eventlisteners
 
  startBtn.addEventListener("click", function(e){
    colorPicker();
-   renderColor(colorArr);
+   renderColor(colorsToRender);
 
  });
+
+gameCont.addEventListener("click", function (e){
+  userInputArr.push(e.target)
+  userIndex = userInputArr.length - 1
+
+  if(userInputArr[userIndex] === colorToMatch[userIndex]){
+    console.log("yese")
+    if(userInputArr.length === colorToMatch.length){
+      colorPicker();
+      renderColor(colorsToRender);
+    }
+  } else {
+      alert('Game Over')
+      colorsToRender = []; //CG
+      colorToMatch = []; //CG
+      userInputArr = [];
+    }
+});
 
 
 
@@ -38,16 +56,16 @@ function colorPicker(){
   let randColor = Math.floor(Math.random() * 4);
   switch (randColor){
     case 0:
-     colorArr.push(redFlipper);
+     colorsToRender.push(redFlipper);
      break;
     case 1:
-      colorArr.push(blueFlipper);
+      colorsToRender.push(blueFlipper);
       break;
     case 2:
-      colorArr.push(greenFlipper);
+      colorsToRender.push(greenFlipper);
       break;
     case 3:
-      colorArr.push(yellowFlipper);
+      colorsToRender.push(yellowFlipper);
   }
 }
 
@@ -72,6 +90,7 @@ function redFlipper() {
   changeRed();
   setTimeout(changeRedBack, 300);
   console.log('r')
+  colorToMatch.push(red)
 }
 
 //Blue Flipper
@@ -87,6 +106,7 @@ function blueFlipper() {
   changeBlue();
   setTimeout(changeBlueBack, 300);
   console.log('b')
+  colorToMatch.push(blue)
 }
 
 //Green Flipper
@@ -102,6 +122,7 @@ function greenFlipper() {
   changeGreen();
   setTimeout(changeGreenBack, 300);
   console.log('g')
+  colorToMatch.push(green)
 }
 
 //Yellow Flipper
@@ -117,4 +138,5 @@ function yellowFlipper() {
   changeYellow();
   setTimeout(changeYellowBack, 300);
   console.log('y')
+  colorToMatch.push(yellow)
 }
