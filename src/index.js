@@ -14,17 +14,17 @@ const startBtn = document.getElementById("start-btn")
   Global Variable
 ******************/
 
-let colorsToRender = []; //CG
-let colorToMatch = []; //CG
-let userInputArr = [];
+let colorsToRender = []; //calls in functions to render the colors in order
+let colorToMatch = []; //div elements(red, green, blue, yellow) that the user must match
+let userInputArr = []; //div elements(red, green, blue, yellow) the user has clicked
 
 /********************************************************************************
 Eventlisteners
 ********************************************************************************/
 
 startBtn.addEventListener("click", function(e){
-   colorPicker();
-   renderColor(colorsToRender);
+   colorPicker(); //populates colorsToRender array
+   renderColor(colorsToRender); //renders the order of colors the user must match
 });
 
 gameCont.addEventListener("click", function (e){
@@ -32,8 +32,10 @@ gameCont.addEventListener("click", function (e){
   userIndex = userInputArr.length - 1
   colorsToRender[userIndex]();
 
+  //conditional-if user is right, continue
   if(userInputArr[userIndex] === colorToMatch[userIndex]){
     console.log("clicked the right one");
+    //if the userInputArr matches the colorToMatch end round and renderColor
     if(userInputArr.length === colorToMatch.length){
       userInputArr = []
       setTimeout(function(){
@@ -42,15 +44,13 @@ gameCont.addEventListener("click", function (e){
       }, 800)
 
     }
-  } else {
-      confirm(`Game Over! Play again? your Score: ${userIndex++}`)
+  } else { //game over
+      confirm(`Game Over! Play again? your Score: ${colorToMatch.length}`)
       colorsToRender = []; //CG
       colorToMatch = []; //CG
       userInputArr = [];
     }
 });
-
-
 
 
 /********************************************************************************
@@ -103,8 +103,6 @@ function changeRedBack() {
 function redFlipper() {
   changeRed();
   setTimeout(changeRedBack, 300);
-  // console.log('r')
-  // colorToMatch.push(red)
 }
 
 //Blue Flipper
@@ -119,8 +117,6 @@ function changeBlueBack() {
 function blueFlipper() {
   changeBlue();
   setTimeout(changeBlueBack, 300);
-  // console.log('b')
-
 }
 
 //Green Flipper
@@ -135,8 +131,6 @@ function changeGreenBack() {
 function greenFlipper() {
   changeGreen();
   setTimeout(changeGreenBack, 300);
-  // console.log('g')
-
 }
 
 //Yellow Flipper
@@ -151,6 +145,4 @@ function changeYellowBack() {
 function yellowFlipper() {
   changeYellow();
   setTimeout(changeYellowBack, 300);
-  // console.log('y')
-
 }
