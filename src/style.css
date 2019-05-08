@@ -1,13 +1,14 @@
 body{
-  background-color: black;
+  background-color: white;
   display: flex;
-  flex-direction: row:
+  flex-direction: row;
+  flew-wrap: wrap;
   justify-content: center;
 
 }
 
 #game-title{
-  color: white;
+  color: black;
   display: flex;
   justify-content: center;
 }

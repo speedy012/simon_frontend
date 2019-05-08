@@ -3,12 +3,16 @@
 DOM nodes
 ********************************************************************************/
 
-const gameCont = document.getElementById("game-container");
+const gameCont = document.getElementById('game-container');
+const lbCont = document.getElementById('leaderboard-container')
 const red = document.getElementById('red')
 const blue = document.getElementById('blue')
 const green = document.getElementById('green')
 const yellow = document.getElementById('yellow')
-const startBtn = document.getElementById("start-btn")
+const startBtn = document.getElementById('start-btn')
+const cardCont = document.querySelector('.card-body')
+const userName = document.getElementById('user-name-form')
+
 
 /*****************
   Global Variable
@@ -45,12 +49,30 @@ gameCont.addEventListener("click", function (e){
 
     }
   } else { //game over
-      confirm(`Game Over! Play again? your Score: ${colorToMatch.length}`)
+      let score = colorsToRender.length-1
+      cardDiv;
+      // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
       colorsToRender = []; //CG
       colorToMatch = []; //CG
       userInputArr = [];
+      renderLb();
     }
 });
+
+
+
+const cardDiv = cardCont.addEventListener("click", function (e){
+  if(e.target.id === "yes-btn"){
+    postUserGame();
+
+  } else if(e.target.id === "no-btn"){
+    console.log("sumthing")
+  }
+
+})
+
+
+
 
 
 /********************************************************************************
@@ -88,6 +110,37 @@ function renderColor(arr) {
     return setTimeout(function() {
       return item();
     }, index * 400);
+  })
+}
+
+function renderLb(){
+  fetch('http://localhost:3000/api/v1/users')
+  .then(res => res.json())
+  .then(users => {
+    users.data.forEach(user => {
+      user.relationships.games.data.forEach(score => {
+
+
+      lbCont.innerHTML += `
+          <p> Username: ${user.attributes.name}</p>
+          <p> ${score.score}</p>
+      `
+      })
+    })
+  })
+}
+
+
+function postUserGame(){
+  fetch('http://localhost:3000/api/v1/users',{
+    methodh: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: userName.value,
+      score: score
+    })
   })
 }
 

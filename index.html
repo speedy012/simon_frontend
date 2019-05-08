@@ -3,6 +3,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="src/style.css">
     <title>Simon Touch</title>
   </head>
@@ -21,7 +22,28 @@
       </div>
     </div>
 
-    <button id="start-btn" type="button">Start</button>
+    <div id="start-container">
+      <button id="start-btn" type="button">Start</button>
+    </div>
+
+    <div id="leaderboard-container">
+
+    </div>
+
+    <div class="card text-center">
+      <div class="card-header">
+        Your Score:
+    </div>
+    <div class="card-body">
+     <h5 class="card-title">Enter Name</h5>
+
+     <p class="card-text">To be added to Scoreboard </p>
+     <input id="user-name-form" type= "text"></br>
+     <a href="#" id="yes-btn" class="btn btn-primary">Yes</a>
+     <a href="#" id="no-btn" class="btn btn-primary">No</a>
+   </div>
+   </div>
+
 
   </body>
   <script type="text/javascript" src="src/index.js"></script>
