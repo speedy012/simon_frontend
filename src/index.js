@@ -3,15 +3,17 @@
 DOM nodes
 ********************************************************************************/
 
-const gameCont = document.getElementById('game-container');
-const lbCont = document.getElementById('leaderboard-container')
-const red = document.getElementById('red')
-const blue = document.getElementById('blue')
-const green = document.getElementById('green')
-const yellow = document.getElementById('yellow')
-const startBtn = document.getElementById('start-btn')
-const cardCont = document.querySelector('.card-body')
-const userName = document.getElementById('user-name-form')
+let gameCont;
+let lbCont = document.getElementById('leaderboard-container')
+let cardCont = document.querySelector('.card-body')
+let userName = document.getElementById('user-name-form')
+let master = document.getElementById('master')
+let startBtn;
+let red;
+let blue;
+let green;
+let yellow;
+let playBtn;
 
 
 
@@ -24,54 +26,7 @@ let colorToMatch = []; //div elements(red, green, blue, yellow) that the user mu
 let userInputArr = []; //div elements(red, green, blue, yellow) the user has clicked
 let score = 0;
 
-/********************************************************************************
-Eventlisteners
-********************************************************************************/
 
-startBtn.addEventListener("click", function(e){
-   colorPicker(); //populates colorsToRender array
-   renderColor(colorsToRender); //renders the order of colors the user must match
-});
-
-gameCont.addEventListener("click", function (e){
-  userInputArr.push(e.target)
-  userIndex = userInputArr.length - 1
-  colorsToRender[userIndex]();
-
-  //conditional-if user is right, continue
-  if(userInputArr[userIndex] === colorToMatch[userIndex]){
-    console.log("clicked the right one");
-    //if the userInputArr matches the colorToMatch end round and renderColor
-    if(userInputArr.length === colorToMatch.length){
-      userInputArr = []
-      setTimeout(function(){
-        colorPicker();
-        renderColor(colorsToRender);
-      }, 800)
-
-    }
-  } else { //game over
-      score = colorsToRender.length-1
-      cardDiv;
-      // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
-      colorsToRender = []; //CG
-      colorToMatch = []; //CG
-      userInputArr = [];
-      fetchUsers();
-    }
-});
-
-
-
-const cardDiv = cardCont.addEventListener("click", function (e){
-  if(e.target.id === "yes-btn"){
-    postUserAndGame();
-
-  } else if(e.target.id === "no-btn"){
-    console.log("sumthing")
-  }
-
-})
 
 
 
@@ -80,6 +35,57 @@ const cardDiv = cardCont.addEventListener("click", function (e){
 /********************************************************************************
 Functions
 ********************************************************************************/
+
+function startNewRound() {
+  userInputArr = []
+  setTimeout(function(){
+    colorPicker();
+    renderColor(colorsToRender);
+  }, 800)
+}
+
+function gameOver() {
+  score = colorsToRender.length-1
+  cardDiv;
+  // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
+  colorsToRender = []; //CG
+  colorToMatch = []; //CG
+  userInputArr = [];
+  fetchUsers();
+}
+
+function renderMainPage() {
+  master.innerHTML =
+  `<h2> Welcome to Simon!</h2>
+  <p> Press play to get started!</p>
+  <button id="play-btn" type="button">Play</button>`
+  playBtn = document.getElementById('play-btn')
+}
+
+function renderGameBoard() {
+  master.innerHTML =
+  `<div id="game-container">
+    <div id="red" class="color">
+    </div>
+    <div id="blue" class="color">
+    </div>
+    <div id="green" class="color">
+    </div>
+    <div id="yellow" class="color">
+    </div>
+  </div>
+  <div id="start-container">
+    <button id="start-btn" type="button">Start</button>
+  </div>`
+      startBtn = document.getElementById('start-btn')
+      red = document.getElementById('red')
+      blue = document.getElementById('blue')
+      green = document.getElementById('green')
+      yellow = document.getElementById('yellow')
+      gameCont = document.getElementById('game-container');
+}
+
+
 function colorPicker(){
   let randColor = Math.floor(Math.random() * 4);
   switch (randColor){
@@ -205,3 +211,81 @@ function yellowFlipper() {
   changeYellow();
   setTimeout(changeYellowBack, 300);
 }
+
+
+/********************************************************************************
+Eventlisteners
+********************************************************************************/
+
+document.addEventListener('DOMContentLoaded', e => {
+renderMainPage()
+})
+
+
+master.addEventListener('click', e => {
+
+  console.log(e.target)
+
+  if (e.target === playBtn) {
+    renderGameBoard()
+  } else if (e.target === startBtn) {
+    console.error("lolz");
+    colorPicker(); //populates colorsToRender array
+    renderColor(colorsToRender); //renders the order of colors the user must match
+  } else if (e.target === gameCont) {
+      userInputArr.push(e.target)
+      userIndex = userInputArr.length - 1
+      colorsToRender[userIndex]();
+      //conditional-if user is right, continue
+      if(userInputArr[userIndex] === colorToMatch[userIndex]){
+        console.log("clicked the right one");
+        //if the userInputArr matches the colorToMatch end round and renderColor
+        if(userInputArr.length === colorToMatch.length){
+          startNewRound()
+        }
+      } else { //game over
+        gameOver()
+      }
+    }
+})
+
+
+
+
+
+
+
+//
+// startBtn.addEventListener("click", function(e){
+//    colorPicker(); //populates colorsToRender array
+//    renderColor(colorsToRender); //renders the order of colors the user must match
+// });
+
+// gameCont.addEventListener("click", function (e){
+//   userInputArr.push(e.target)
+//   userIndex = userInputArr.length - 1
+//   colorsToRender[userIndex]();
+//
+//   //conditional-if user is right, continue
+//   if(userInputArr[userIndex] === colorToMatch[userIndex]){
+//     console.log("clicked the right one");
+//     //if the userInputArr matches the colorToMatch end round and renderColor
+//     if(userInputArr.length === colorToMatch.length){
+//       startNewRound()
+//     }
+//   } else { //game over
+//     gameOver()
+//     }
+// });
+
+
+//
+// const cardDiv = cardCont.addEventListener("click", function (e){
+//   if(e.target.id === "yes-btn"){
+//     postUserAndGame();
+//
+//   } else if(e.target.id === "no-btn"){
+//     console.log("sumthing")
+//   }
+//
+// })
