@@ -14,6 +14,7 @@ const cardCont = document.querySelector('.card-body')
 const userName = document.getElementById('user-name-form')
 
 
+
 /*****************
   Global Variable
 ******************/
@@ -21,6 +22,7 @@ const userName = document.getElementById('user-name-form')
 let colorsToRender = []; //calls in functions to render the colors in order
 let colorToMatch = []; //div elements(red, green, blue, yellow) that the user must match
 let userInputArr = []; //div elements(red, green, blue, yellow) the user has clicked
+let score = 0;
 
 /********************************************************************************
 Eventlisteners
@@ -49,13 +51,13 @@ gameCont.addEventListener("click", function (e){
 
     }
   } else { //game over
-      let score = colorsToRender.length-1
+      score = colorsToRender.length-1
       cardDiv;
       // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
       colorsToRender = []; //CG
       colorToMatch = []; //CG
       userInputArr = [];
-      renderLb();
+      fetchUsers();
     }
 });
 
@@ -63,7 +65,7 @@ gameCont.addEventListener("click", function (e){
 
 const cardDiv = cardCont.addEventListener("click", function (e){
   if(e.target.id === "yes-btn"){
-    postUserGame();
+    postUserAndGame();
 
   } else if(e.target.id === "no-btn"){
     console.log("sumthing")
@@ -113,37 +115,41 @@ function renderColor(arr) {
   })
 }
 
-function renderLb(){
+function fetchUsers(){
   fetch('http://localhost:3000/api/v1/users')
   .then(res => res.json())
-  .then(users => {
-    users.data.forEach(user => {
-      user.relationships.games.data.forEach(score => {
-
-
-      lbCont.innerHTML += `
-          <p> Username: ${user.attributes.name}</p>
-          <p> ${score.score}</p>
-      `
-      })
-    })
-  })
+  .then(users => renderLB(users.data))
 }
 
+function renderLB(arr) {
+  arr.forEach(user => {
+    lbCont.innerHTML +=
+    `<p> Username: ${user.attributes.name}</p>
+        <p> ${score}</p>`
+    })
+  }
 
-function postUserGame(){
-  fetch('http://localhost:3000/api/v1/users',{
-    methodh: "POST",
+
+function postUserAndGame(){
+  fetch('http://localhost:3000/api/v1/users', {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json", 'accept': 'application/json'
     },
     body: JSON.stringify({
       name: userName.value,
       score: score
     })
   })
+  .then(res => res.json())
+  .then(data => {
+    lbCont.innerHTML +=
+    `<p> Username: ${data.data.attributes.name}</p>
+      <p> ${data.data.relationships.games.data[0].score}</p>`
+  })
 }
 
+/********Flipper Functions*******************/
 //Red Flipper
 function changeRed() {
   red.style.backgroundColor = "#8B0000"
