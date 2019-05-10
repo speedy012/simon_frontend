@@ -10,9 +10,9 @@ const blue = document.getElementById('blue')
 const green = document.getElementById('green')
 const yellow = document.getElementById('yellow')
 const startBtn = document.getElementById('start-btn')
-const cardCont = document.querySelector('.card-body')
-const userName = document.getElementById('user-name-form')
-
+let cardCont;
+let userName;
+const userCard = document.getElementById('user-card')
 
 
 /*****************
@@ -51,28 +51,43 @@ gameCont.addEventListener("click", function (e){
 
     }
   } else { //game over
-      score = colorsToRender.length-1
-      cardDiv;
+
       // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
       colorsToRender = []; //CG
       colorToMatch = []; //CG
       userInputArr = [];
-      fetchUsers();
+       fetchGames();
+      // cardCont = document.querySelector('.card-body')
+      // cardListener()
+      userCard.innerHTML =
+      `  <div class="card text-center">
+          <div class="card-header">
+            Your Score:
+        </div>
+        <div class="card-body">
+         <h5 class="card-title">Enter Name</h5>
+
+         <p class="card-text">To be added to Scoreboard </p>
+         <input id="user-name-form" type= "text"></br>
+         <a href="#" id="yes-btn" class="btn btn-primary">Yes</a>
+         <a href="#" id="no-btn" class="btn btn-primary">No</a>
+       </div>
+       </div>`
+
     }
 });
 
 
-
-const cardDiv = cardCont.addEventListener("click", function (e){
-  if(e.target.id === "yes-btn"){
-    postUserAndGame();
-
-  } else if(e.target.id === "no-btn"){
-    console.log("sumthing")
-  }
-
-})
-
+function cardListener() {
+  cardCont.addEventListener("click", function (e){
+    console.log(e.target);
+    if(e.target.id === "yes-btn"){
+      postUserAndGame();
+    } else if(e.target.id === "no-btn"){
+      userCard.innerHTML = ''
+    }
+  })
+}
 
 
 
@@ -115,22 +130,36 @@ function renderColor(arr) {
   })
 }
 
-function fetchUsers(){
-  fetch('http://localhost:3000/api/v1/users')
+function fetchGames(){
+  fetch('http://localhost:3000/api/v1/games')
   .then(res => res.json())
-  .then(users => renderLB(users.data))
+  .then(games => {
+    lbCont.innerHTML = ''
+  games.sort((a,b) => a.score - b.score)
+    renderLB(games.reverse().slice(0, 5))
+
+     //update card container and username to be the actual element
+     cardCont = document.querySelector('.card-body')
+     userName = document.getElementById('user-name-form')
+
+     //add event listener to card container
+     cardListener()
+     console.log("cardCont is: ", cardCont);
+
+  })
 }
 
 function renderLB(arr) {
-  arr.forEach(user => {
+  arr.forEach(game => {
     lbCont.innerHTML +=
-    `<p> Username: ${user.attributes.name}</p>
-        <p> ${score}</p>`
+    `<p>Username: ${game.user.name}</p>
+        <p> ${game.score}</p>`
     })
   }
 
 
 function postUserAndGame(){
+  alert("inside postUserAndGame")
   fetch('http://localhost:3000/api/v1/users', {
     method: "POST",
     headers: {
@@ -143,9 +172,10 @@ function postUserAndGame(){
   })
   .then(res => res.json())
   .then(data => {
-    lbCont.innerHTML +=
-    `<p> Username: ${data.data.attributes.name}</p>
-      <p> ${data.data.relationships.games.data[0].score}</p>`
+    fetchGames()
+
+    // userName.value = ''
+    userCard.innerHTML = ''
   })
 }
 
