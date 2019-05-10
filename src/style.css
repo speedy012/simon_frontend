@@ -75,3 +75,35 @@ body{
   display: flex;
   justify-content: center;
 }
+
+.main-container {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+#start-container {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+#leaderboard-container {
+  width: 20%;
+  padding: 0;
+}
+
+.left-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

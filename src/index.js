@@ -40,7 +40,6 @@ gameCont.addEventListener("click", function (e){
 
   //conditional-if user is right, continue
   if(userInputArr[userIndex] === colorToMatch[userIndex]){
-    console.log("clicked the right one");
     //if the userInputArr matches the colorToMatch end round and renderColor
     if(userInputArr.length === colorToMatch.length){
       userInputArr = []
@@ -53,16 +52,14 @@ gameCont.addEventListener("click", function (e){
   } else { //game over
 
       // confirm(`Game Over! Play again? your Score: ${colorToMatch.length-1}`)
-      colorsToRender = []; //CG
-      colorToMatch = []; //CG
-      userInputArr = [];
+
        fetchGames();
       // cardCont = document.querySelector('.card-body')
       // cardListener()
       userCard.innerHTML =
       `  <div class="card text-center">
           <div class="card-header">
-            Your Score:
+            Your Score: ${colorToMatch.length-1}
         </div>
         <div class="card-body">
          <h5 class="card-title">Enter Name</h5>
@@ -73,14 +70,16 @@ gameCont.addEventListener("click", function (e){
          <a href="#" id="no-btn" class="btn btn-primary">No</a>
        </div>
        </div>`
-
+       colorsToRender = []; //CG
+       colorToMatch = []; //CG
+       userInputArr = [];
     }
 });
 
 
 function cardListener() {
   cardCont.addEventListener("click", function (e){
-    console.log(e.target);
+
     if(e.target.id === "yes-btn"){
       postUserAndGame();
     } else if(e.target.id === "no-btn"){
@@ -100,29 +99,25 @@ function colorPicker(){
   switch (randColor){
     case 0:
      colorsToRender.push(redFlipper);
-     console.log("Just added a color to colors to render", colorsToRender);
      colorToMatch.push(red)
      break;
     case 1:
       colorsToRender.push(blueFlipper);
-      console.log("Just added a color to colors to render", colorsToRender);
       colorToMatch.push(blue)
       break;
     case 2:
       colorsToRender.push(greenFlipper);
-      console.log("Just added a color to colors to render", colorsToRender);
         colorToMatch.push(green)
       break;
     case 3:
       colorsToRender.push(yellowFlipper);
-      console.log("Just added a color to colors to render", colorsToRender);
         colorToMatch.push(yellow)
   }
-  console.log("color to match", colorToMatch);
+
 }
 
 function renderColor(arr) {
-  console.log("render color", colorsToRender);
+
   arr.forEach(function(item, index) {
     return setTimeout(function() {
       return item();
@@ -144,22 +139,18 @@ function fetchGames(){
 
      //add event listener to card container
      cardListener()
-     console.log("cardCont is: ", cardCont);
-
   })
 }
 
 function renderLB(arr) {
   arr.forEach(game => {
     lbCont.innerHTML +=
-    `<p>Username: ${game.user.name}</p>
-        <p> ${game.score}</p>`
+    `<li>${game.user.name}: ${game.score}</li>`
     })
   }
 
 
 function postUserAndGame(){
-  alert("inside postUserAndGame")
   fetch('http://localhost:3000/api/v1/users', {
     method: "POST",
     headers: {
