@@ -129,9 +129,10 @@ function fetchGames(){
   fetch('http://localhost:3000/api/v1/games')
   .then(res => res.json())
   .then(games => {
+
     lbCont.innerHTML = ''
-  games.sort((a,b) => a.score - b.score)
-    renderLB(games.reverse().slice(0, 5))
+    const leaders = Object.values(games).sort((a,b) => a.score - b.score)
+    renderLB(leaders.reverse().slice(0, 5))
 
      //update card container and username to be the actual element
      cardCont = document.querySelector('.card-body')
@@ -143,9 +144,11 @@ function fetchGames(){
 }
 
 function renderLB(arr) {
-  arr.forEach(game => {
-    lbCont.innerHTML +=
-    `<li>${game.user.name}: ${game.score}</li>`
+  arr.map(game => {
+      game.map(match => {
+        return lbCont.innerHTML +=
+        `<li>${match.attributes.user.name}: ${match.attributes.score}</li>`
+      })
     })
   }
 
